@@ -37,13 +37,18 @@ function OtpArea() {
             )
         }
     }
+useEffect(() => {
+    startTimer()
+},[])
+
+
  
     const clearTimer = (e) => {
  
         // If you adjust it you should also need to
         // adjust the Endtime formula we are about
         // to code next   
-        setTimer('00:00:10');
+        setTimer('00:00:00');
  
         // If you try to remove this line the
         // updating of timer Variable will be
@@ -87,6 +92,7 @@ function OtpArea() {
     <Box sx={{backgroundColor:'white', border:"1px solid grey" , margin:"15px 5px" , padding:"15px 5px"}}>
        <h2>{timer}</h2>
             <button onClick={onClickReset}>Reset</button>
+            <button onClick={startTimer}>start</button>
     </Box>
   )
 }

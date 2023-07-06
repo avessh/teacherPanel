@@ -30,7 +30,24 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import {DatePicker} from '@mui/x-date-pickers/DatePicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
+import { Input, TextField } from '@mui/material'
+
+import Modal from '@mui/material/Modal';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    height: 600,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 const drawerWidth = 240;
 
@@ -80,6 +97,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 function Navbar() {
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const handleModalOpen = () => setModalOpen(true);
+    const handleModalClose = () => setModalOpen(false);
+
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -92,25 +113,98 @@ function Navbar() {
         setOpen(false);
     };
 
-    const [classOpen, setClassOpen] = React.useState(false);
-    const [age, setAge] = React.useState('');
+    const [classOpen, setClassOpen] = React.useState('Select Class');
+    const [classBoxOpen, setClassBoxOpen] = React.useState(false)
+    const [classFreq, setClassFreq] = React.useState('');
 
-    const handleChange = (event) => {
-        setAge(Number(event.target.value) || '');
+    const handleChange = (e) => {
+        console.log('target', e.target.value);
+        setClassOpen((e.target.value))
+    }
+
+    const handleClassFreqChange = (event) => {
+        console.log('freq change', event.target.value);
+        setClassFreq((event.target.value) || 'safda');
     };
 
     const handleClickOpen = () => {
-        setClassOpen(true);
+        setClassBoxOpen(true);
     };
 
     const handleClose = (event, reason) => {
         if (reason !== 'backdropClick') {
-            setClassOpen(false);
+            setClassBoxOpen(false);
         }
     };
 
+    //getting curret time and date
+
+    var someDate = new Date();
+  var numberOfDaysToAdd = 3;
+  var date = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+  var defaultValue = new Date(date).toISOString().split("T")[0];
+    const currTime = new Date().toLocaleTimeString();
+      
+
     return (
         <>
+
+            {/* ** modal code start ** */}
+
+            <Modal
+                keepMounted
+                open={modalOpen}
+                onClose={handleModalClose}
+                aria-labelledby="keep-mounted-modal-title"
+                aria-describedby="keep-mounted-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+                        Create Class
+                    </Typography>
+                    <Box sx={{ marginTop: "10px" }}>
+
+                        <Input sx={{ margin: "5px 0px", width: '80vw' }} id='fullWidth' placeholder='Title' />
+                        <Box sx={{ display: 'flex', margin: "10px 0px" }}>
+                            <Box sx={{ flexGrow: '1' }}>
+                                <label style={{ marginTop: '10px' }}>From</label>
+                                <br />
+                                <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} value={currTime } type="time" placeholder='Title' />
+                            </Box>
+                            <Box sx={{ flexGrow: '1' }}>
+                                <label style={{ marginTop: '10px' }}>till</label>
+                                <br />
+                                <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} type="time" placeholder='Title' />
+                            </Box>
+                        </Box>
+                        <Box>
+                            <FormControl variant="standard" sx={{ width: "80vw", margin:"10px 0px" }}>
+                                <InputLabel >select</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={classFreq}
+                                    onChange={handleClassFreqChange}
+                                    label="Class"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={"Today"}>Today</MenuItem>
+                                    <MenuItem value={"Everyday"} >Everyday</MenuItem>
+                                    <MenuItem value={"Costom"}>Costom</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+
+
+
+                    </Box>
+                </Box>
+            </Modal>
+
+            {/* ** modal code ends ** */}
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar sx={{ backgroundColor: "#16151c" }} position="fixed" open={open}>
@@ -129,25 +223,26 @@ function Navbar() {
                         </Typography>
                     </Toolbar>
                     <Box sx={{ display: "flex" }}>
-                        <Box sx={{display:"flex",justifyContent:'center' , alignItems:"center", borderTop:"1px solid white", borderRight:"1px solid white", width:"50%"}}>
+                        <Box sx={{ display: "flex", justifyContent: 'center', alignItems: "center", borderTop: "1px solid white", borderRight: "1px solid white", width: "50%" }}>
                             <div>
-                                <Button color={"inherit"} onClick={handleClickOpen}>Select Class</Button>
-                                <Dialog disableEscapeKeyDown open={classOpen} onClose={handleClose}>
+                                <Button color={"inherit"} onClick={handleClickOpen}>{classOpen}</Button>
+                                <Dialog disableEscapeKeyDown open={classBoxOpen} onClose={handleClose}>
                                     <DialogTitle>Select Class</DialogTitle>
                                     <DialogContent>
                                         <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                            <FormControl sx={{ m: 1, minWidth: 200 }}>
-                                                <InputLabel htmlFor="demo-dialog-native">Age</InputLabel>
+                                            <FormControl variant="standard" sx={{ width: "80vw" }}>
                                                 <Select
-                                                    native
-                                                    value={age}
-                                                    onChange={handleChange}
-                                                    input={<OutlinedInput label="Age" id="demo-dialog-native" />}
+                                                    labelId="demo-simple-select-standard-label"
+                                                    id="demo-simple-select-standard"
+                                                    value={classOpen}
+                                                    onChange={(e) => setClassOpen(e.target.value)}
                                                 >
-                                                    <option aria-label="None" value="" />
-                                                    <option value={10}>Ten</option>
-                                                    <option value={20}>Twenty</option>
-                                                    <option value={30}>Thirty</option>
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'B.Tech'} >B.Tech</MenuItem>
+                                                    <MenuItem value="B.Tech CSE">Twenty</MenuItem>
+                                                    <MenuItem value={"BCA"} >Thirty</MenuItem>
                                                 </Select>
                                             </FormControl>
 
@@ -160,12 +255,12 @@ function Navbar() {
                                 </Dialog>
                             </div>
                         </Box>
-                        <Box sx={{color:"white", display:"flex" , justifyContent:'center' , alignItems:'center' ,width:"50%"  , borderTop:'1px solid white'}}>
+                        <Box sx={{ color: "white", display: "flex", justifyContent: 'center', alignItems: 'center', width: "50%", borderTop: '1px solid white' }}>
+
                             
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker sx={{ '& input': {color: 'white'} , width:"75%" }} />
-                            </LocalizationProvider>
+                                <input defaultValue={defaultValue} type='date'  sx={{ '& input': { color: 'white' }, width: "65%" }}  />
                             
+
                         </Box>
                     </Box>
                 </AppBar>
@@ -195,7 +290,7 @@ function Navbar() {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    Create Class
+                                    <Button onClick={handleModalOpen}> Create Class</Button>
                                 </ListItemIcon>
                                 <ListItemText />
                             </ListItemButton>
