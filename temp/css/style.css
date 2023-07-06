@@ -1,5 +1,9 @@
 html, body{
   height:100%;
+  overflow: hidden;
+}
+body::-webkit-scrollbar{
+    display: none;
 }
 .uk-logo, .uk-logo:hover, .uk-logo:active, .uk-logo:visited {
     color: #ffffff;
@@ -42,6 +46,9 @@ html, body{
     padding: 10px;
 }
 
+input[type='date']{
+    color: white;
+}
 
 
 
@@ -85,8 +92,21 @@ html, body{
     display: flex;
     justify-content: space-between;
     /* padding: 15px 15px; */
-    position:static;
 }
+
+#students{
+    /* background-color: red; */
+    height: 50vh;
+
+}
+
+#students::-webkit-scrollbar{
+    display: none;
+}
+
+
+
+
 @media(max-width: 960px) {
     .tm-sidebar-left {
         opacity: 0;
