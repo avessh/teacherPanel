@@ -32,9 +32,23 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
-import { Input, TextField } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import SaveIcon from '@mui/icons-material/Save';
+import SendIcon from '@mui/icons-material/Send';
+
+import { Input, TextField, Card } from '@mui/material'
+
+import { Link , useParams} from 'react-router-dom'
 
 import Modal from '@mui/material/Modal';
+
+//importing mock data
+import studentData from '../../data/mokStudentData.json'
+
+
+
 
 const style = {
     position: 'absolute',
@@ -97,6 +111,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 function Navbar() {
+    // console.log('data', studentData);
     const [modalOpen, setModalOpen] = React.useState(false);
     const handleModalOpen = () => setModalOpen(true);
     const handleModalClose = () => setModalOpen(false);
@@ -113,7 +128,12 @@ function Navbar() {
         setOpen(false);
     };
 
-    const [classOpen, setClassOpen] = React.useState('Select Class');
+    
+  const { classname } = useParams()
+  console.log('class at nav', classname);
+
+
+    const [classOpen, setClassOpen] = React.useState(classname === undefined ? "select class" : classname);
     const [classBoxOpen, setClassBoxOpen] = React.useState(false)
     const [classFreq, setClassFreq] = React.useState('');
 
@@ -127,8 +147,18 @@ function Navbar() {
         setClassFreq((event.target.value) || 'safda');
     };
 
+    const handleClassChange = (e) => {
+        console.log('class change', classOpen);
+        setClassOpen(e.target.value)
+        setClassBoxOpen(false)
+
+    }
+
+
+
     const handleClickOpen = () => {
         setClassBoxOpen(true);
+        console.log(classOpen);
     };
 
     const handleClose = (event, reason) => {
@@ -140,17 +170,16 @@ function Navbar() {
     //getting curret time and date
 
     var someDate = new Date();
-  var numberOfDaysToAdd = 3;
-  var date = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
-  var defaultValue = new Date(date).toISOString().split("T")[0];
+    var numberOfDaysToAdd = 0;
+    var date = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+    var defaultValue = new Date(date).toISOString().split("T")[0];
     const currTime = new Date().toLocaleTimeString();
-      
+
 
     return (
         <>
 
             {/* ** modal code start ** */}
-
             <Modal
                 keepMounted
                 open={modalOpen}
@@ -169,7 +198,7 @@ function Navbar() {
                             <Box sx={{ flexGrow: '1' }}>
                                 <label style={{ marginTop: '10px' }}>From</label>
                                 <br />
-                                <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} value={currTime } type="time" placeholder='Title' />
+                                <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} value={currTime} type="time" placeholder='Title' />
                             </Box>
                             <Box sx={{ flexGrow: '1' }}>
                                 <label style={{ marginTop: '10px' }}>till</label>
@@ -178,7 +207,7 @@ function Navbar() {
                             </Box>
                         </Box>
                         <Box>
-                            <FormControl variant="standard" sx={{ width: "80vw", margin:"10px 0px" }}>
+                            <FormControl variant="standard" sx={{ width: "80vw", margin: "10px 0px" }}>
                                 <InputLabel >select</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
@@ -195,6 +224,7 @@ function Navbar() {
                                     <MenuItem value={"Costom"}>Costom</MenuItem>
                                 </Select>
                             </FormControl>
+                            <Button sx={{ margin: "10px 0px" }} variant='contained'>Create</Button>
                         </Box>
 
 
@@ -220,46 +250,59 @@ function Navbar() {
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
                             Attandance
+
                         </Typography>
                     </Toolbar>
                     <Box sx={{ display: "flex" }}>
-                        <Box sx={{ display: "flex", justifyContent: 'center', alignItems: "center", borderTop: "1px solid white", borderRight: "1px solid white", width: "50%" }}>
+                        <Box sx={{ display: "flex", justifyContent: 'center', alignItems: "center", borderTop: "1px solid white", borderRight: "1px solid white", width: "50%", padding: "5px " }}>
                             <div>
                                 <Button color={"inherit"} onClick={handleClickOpen}>{classOpen}</Button>
-                                <Dialog disableEscapeKeyDown open={classBoxOpen} onClose={handleClose}>
-                                    <DialogTitle>Select Class</DialogTitle>
-                                    <DialogContent>
-                                        <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                            <FormControl variant="standard" sx={{ width: "80vw" }}>
-                                                <Select
-                                                    labelId="demo-simple-select-standard-label"
-                                                    id="demo-simple-select-standard"
-                                                    value={classOpen}
-                                                    onChange={(e) => setClassOpen(e.target.value)}
-                                                >
-                                                    <MenuItem value="">
-                                                        <em>None</em>
-                                                    </MenuItem>
-                                                    <MenuItem value={'B.Tech'} >B.Tech</MenuItem>
-                                                    <MenuItem value="B.Tech CSE">Twenty</MenuItem>
-                                                    <MenuItem value={"BCA"} >Thirty</MenuItem>
-                                                </Select>
-                                            </FormControl>
 
-                                        </Box>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={handleClose}>Cancel</Button>
-                                        <Button onClick={handleClose}>Ok</Button>
-                                    </DialogActions>
+                                <Dialog disableEscapeKeyDown open={classBoxOpen} onClose={handleClose}>
+
+                                    <DialogTitle>Select Class</DialogTitle>
+
+                                    <FormControl variant="standard" sx={{ width: "80vw", padding: "20px 20px" }}>
+
+                                        <InputLabel sx={{ width: "80vw", padding: "20px 20px" }} >select</InputLabel>
+
+                                        <Select
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={classOpen}
+                                            onChange={handleClassChange}
+                                            label="Class"
+                                        >
+
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                           <MenuItem value={studentData[0].class} > <Link to={`/${studentData[0].class}`}>{studentData[0].class}</Link></MenuItem>
+                                           <MenuItem value={studentData[1].class} > <Link to={`/${studentData[1].class}`}>{studentData[1].class}</Link></MenuItem>
+                                            {/* <MenuItem value={studentData[1].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[2].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[3].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[4].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[5].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[6].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[7].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[8].class} >{studentData[0].class}</MenuItem>
+                                            <MenuItem value={studentData[9].class} >{studentData[0].class}</MenuItem> */}
+
+
+
+                                        </Select>
+
+                                    </FormControl>
+
                                 </Dialog>
                             </div>
                         </Box>
                         <Box sx={{ color: "white", display: "flex", justifyContent: 'center', alignItems: 'center', width: "50%", borderTop: '1px solid white' }}>
 
-                            
-                                <input defaultValue={defaultValue} type='date'  sx={{ '& input': { color: 'white' }, width: "65%" }}  />
-                            
+
+                            <input defaultValue={defaultValue} type='date' sx={{ '& input': { color: 'white' }, width: "65%" }} />
+
 
                         </Box>
                     </Box>
@@ -308,7 +351,7 @@ function Navbar() {
 
             {/* code for pop  */}
 
-
+            
 
         </>
     )

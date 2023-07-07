@@ -1,0 +1,32 @@
+[
+    {
+        "id":"1",
+        "className":"ECE",
+        "students":[
+            {
+                
+            }
+        ]
+    },
+    {
+        "id":"2",
+        "className":"CSE"
+    },
+    {
+        "id":"3",
+        "className":"IT"
+    },
+    {
+        "id":"4",
+        "className":"EE"
+    },
+    {
+        "id":"5",
+        "className":"ME"
+    },
+    {
+        "id":"6",
+        "className":"CHE"
+    }
+
+]
