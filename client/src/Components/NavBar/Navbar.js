@@ -56,7 +56,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    height: 600,
+    height: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -201,7 +201,7 @@ function Navbar() {
                                 <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} value={currTime} type="time" placeholder='Title' />
                             </Box>
                             <Box sx={{ flexGrow: '1' }}>
-                                <label style={{ marginTop: '10px' }}>till</label>
+                                <label style={{ marginTop: '10px' }}>To</label>
                                 <br />
                                 <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} type="time" placeholder='Title' />
                             </Box>
@@ -224,7 +224,7 @@ function Navbar() {
                                     <MenuItem value={"Costom"}>Costom</MenuItem>
                                 </Select>
                             </FormControl>
-                            <Button sx={{ margin: "10px 0px" }} variant='contained'>Create</Button>
+                            <Button sx={{ margin: "30px 0px" , width:"100%" }} variant='contained'>Create</Button>
                         </Box>
 
 
