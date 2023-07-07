@@ -1,0 +1,63 @@
+[
+    {
+        "id":"1",
+        "studentName":"avesh",
+        "rollNo":"12132",
+        "class":"ECE"
+    },
+    {
+        "id":"2",
+        "studentName":"rounit",
+        "rollNo":"2342",
+        "class":"CSE"
+    },
+    {
+        "id":"3",
+        "studentName":"ankit",
+        "rollNo":"1314314",
+        "class":"ECE"
+    },
+    {
+        "id":"4",
+        "studentName":"anurag",
+        "rollNo":"1314134",
+        "class":"ECE"
+    },
+    {
+        "id":"5",
+        "studentName":"samarth",
+        "rollNo":"1314134",
+        "class":"ECE"
+    },
+    {
+        "id":"6",
+        "studentName":"RR",
+        "rollNo":"123424",
+        "class":"ECE"
+    },
+    {
+        "id":"7",
+        "studentName":"tyagi",
+        "rollNo":"1234234",
+        "class":"ECE"
+    },
+    {
+        "id":"8",
+        "studentName":"avesh singh",
+        "rollNo":"132423",
+        "class":"ECE"
+    },
+    {
+        "id":"9",
+        "studentName":"singh avesh",
+        "rollNo":"1234234",
+        "class":"ECE"
+    },
+    {
+        "id":"10",
+        "studentName":"gourav",
+        "rollNo":"23421",
+        "class":"ECE"
+    }
+
+]
