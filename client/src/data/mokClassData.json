@@ -1,12 +1,7 @@
 [
     {
         "id":"1",
-        "className":"ECE",
-        "students":[
-            {
-                
-            }
-        ]
+        "className":"ECE"
     },
     {
         "id":"2",

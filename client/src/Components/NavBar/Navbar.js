@@ -38,6 +38,9 @@ import Switch from '@mui/material/Switch';
 import SaveIcon from '@mui/icons-material/Save';
 import SendIcon from '@mui/icons-material/Send';
 
+//css import
+import "../NavBar/Navbar.css"
+
 import { Input, TextField, Card } from '@mui/material'
 
 import { Link , useParams} from 'react-router-dom'
@@ -46,6 +49,7 @@ import Modal from '@mui/material/Modal';
 
 //importing mock data
 import studentData from '../../data/mokStudentData.json'
+import classData from '../../data/mokClassData.json'
 
 
 
@@ -137,6 +141,9 @@ function Navbar() {
     const [classBoxOpen, setClassBoxOpen] = React.useState(false)
     const [classFreq, setClassFreq] = React.useState('');
 
+    const [className,  setClassName] = React.useState('')
+    const [classNameOpen , setClassNameOpen] = React.useState(false)
+
     const handleChange = (e) => {
         console.log('target', e.target.value);
         setClassOpen((e.target.value))
@@ -146,6 +153,10 @@ function Navbar() {
         console.log('freq change', event.target.value);
         setClassFreq((event.target.value) || 'safda');
     };
+
+    const handleClassNameChange = (e) => {
+        setClassName(e.target.value)
+    }
 
     const handleClassChange = (e) => {
         console.log('class change', classOpen);
@@ -161,10 +172,12 @@ function Navbar() {
         console.log(classOpen);
     };
 
-    const handleClose = (event, reason) => {
-        if (reason !== 'backdropClick') {
+    const handleClose = (className) => {
+        setClassOpen(className)
+        console.log('class name' , className);
+        
             setClassBoxOpen(false);
-        }
+        
     };
 
     //getting curret time and date
@@ -188,12 +201,32 @@ function Navbar() {
                 aria-describedby="keep-mounted-modal-description"
             >
                 <Box sx={style}>
+                    <Box sx={{display:'flex', justifyContent:"space-between"}}> 
                     <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
                         Create Class
                     </Typography>
+                    <Button onClick={handleModalClose} sx={{position:'relative' , bottom:"30px", left:"35px" , fontSize:"22px"}}>X</Button>
+                    </Box>
+                   
                     <Box sx={{ marginTop: "10px" }}>
 
-                        <Input sx={{ margin: "5px 0px", width: '80vw' }} id='fullWidth' placeholder='Title' />
+                    <FormControl variant="standard" sx={{ width: "80vw", margin: "10px 0px" }}>
+                                <InputLabel >select</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={className}
+                                    onChange={handleClassNameChange}
+                                    label="Class"
+                                >
+                                    {
+                                        classData.map(home => {
+                                            return <MenuItem value={home.className}>{home.className}</MenuItem>
+                                        })
+                                    }
+                                    
+                                </Select>
+                            </FormControl>
                         <Box sx={{ display: 'flex', margin: "10px 0px" }}>
                             <Box sx={{ flexGrow: '1' }}>
                                 <label style={{ marginTop: '10px' }}>From</label>
@@ -216,12 +249,9 @@ function Navbar() {
                                     onChange={handleClassFreqChange}
                                     label="Class"
                                 >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
                                     <MenuItem value={"Today"}>Today</MenuItem>
                                     <MenuItem value={"Everyday"} >Everyday</MenuItem>
-                                    <MenuItem value={"Costom"}>Costom</MenuItem>
+                                    {/* <MenuItem value={"Costom"}>Costom</MenuItem> */}
                                 </Select>
                             </FormControl>
                             <Button sx={{ margin: "30px 0px" , width:"100%" }} variant='contained'>Create</Button>
@@ -274,11 +304,14 @@ function Navbar() {
                                             label="Class"
                                         >
 
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                           <MenuItem value={studentData[0].class} > <Link to={`/${studentData[0].class}`}>{studentData[0].class}</Link></MenuItem>
-                                           <MenuItem value={studentData[1].class} > <Link to={`/${studentData[1].class}`}>{studentData[1].class}</Link></MenuItem>
+                                            
+                                            {
+                                                classData.map(home => {
+                                                    return  <Link  style={{TextDecoration:"none"}} to={`/${home.className}`}> <Box id="class-select-box" onClick={() => handleClose(home.className)}  sx={{ width:"72vw", margin:"5px 0px" , padding:"10px" }}>{home.className}</Box></Link>
+                                                })
+                                            }
+                                          
+                                          
                                             {/* <MenuItem value={studentData[1].class} >{studentData[0].class}</MenuItem>
                                             <MenuItem value={studentData[2].class} >{studentData[0].class}</MenuItem>
                                             <MenuItem value={studentData[3].class} >{studentData[0].class}</MenuItem>

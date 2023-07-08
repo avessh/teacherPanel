@@ -15,25 +15,25 @@
         "id":"3",
         "studentName":"ankit",
         "rollNo":"1314314",
-        "class":"ECE"
+        "class":"IT"
     },
     {
         "id":"4",
         "studentName":"anurag",
         "rollNo":"1314134",
-        "class":"ECE"
+        "class":"EE"
     },
     {
         "id":"5",
         "studentName":"samarth",
         "rollNo":"1314134",
-        "class":"ECE"
+        "class":"ME"
     },
     {
         "id":"6",
         "studentName":"RR",
         "rollNo":"123424",
-        "class":"ECE"
+        "class":"CHE"
     },
     {
         "id":"7",

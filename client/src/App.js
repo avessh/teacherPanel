@@ -9,18 +9,18 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
 
-  
+
 
   return (
     <>
-    <Navbar/>
-    <Routes>
-              <Route path="/:classname" element={<StudentArea />} />
-              <Route path="/otp" element={<OtpArea />} />
-            </Routes>
+      <Navbar />
+      <OtpArea />
+      <Routes>
+        <Route path="/:classname" element={<StudentArea />} />
+      </Routes>
     </>
-    
-    
+
+
   );
 }
 

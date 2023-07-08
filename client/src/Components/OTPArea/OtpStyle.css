@@ -32,6 +32,7 @@ html{
 .main-container{
     width: 50%;
     margin: 0px 80px 0px 0px;
+    height: 10vh;
     /* height: 10vh; */
     background-color: white;
 }

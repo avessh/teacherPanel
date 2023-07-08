@@ -19,9 +19,10 @@ function StudentArea() {
 
   return (
     <Box sx={{ backgroundColor: "whitesmoke", margin: "0px 5px", padding: "5px" }}>
-      <h2>Students</h2>
-      <h1>{classname}</h1>
-      <Box sx={{ height: "60vh", overflow: 'scroll' }}>
+      <h4 style={{margin:"20px 0px 10px 0px"}}>Students <span style={{fontSize:"16px"}}>({classname})</span></h4>
+      <hr/>
+      
+      <Box sx={{ height: "56vh", overflow: 'scroll' }}>
 
         {
           studentData.map((home) => {
