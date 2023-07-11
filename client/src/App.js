@@ -1,5 +1,6 @@
 
 import './App.css';
+import Classes from './Components/Classes/Classes';
 import Navbar from './Components/NavBar/Navbar';
 import OtpArea from './Components/OTPArea/OtpArea';
 import StudentArea from './Components/StudentArea/StudentArea';
@@ -17,6 +18,7 @@ function App() {
       <OtpArea />
       <Routes>
         <Route path="/:classname" element={<StudentArea />} />
+        <Route path="/calendar" element={<Classes />} />
       </Routes>
     </>
 

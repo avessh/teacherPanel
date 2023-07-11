@@ -1,0 +1,13 @@
+{
+    "grammarly.selectors": [
+        {
+            "language": "javascript",
+            "scheme": "file",
+            "pattern": "client/src/Components/Calendar/Calendar.js"
+        },
+        {
+            "language": "javascript",
+            "scheme": "file"
+        }
+    ]
+}

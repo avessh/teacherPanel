@@ -37,13 +37,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import SaveIcon from '@mui/icons-material/Save';
 import SendIcon from '@mui/icons-material/Send';
+import axios from 'axios'
 
 //css import
 import "../NavBar/Navbar.css"
 
 import { Input, TextField, Card } from '@mui/material'
 
-import { Link , useParams} from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import Modal from '@mui/material/Modal';
 
@@ -60,7 +61,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    height: 400,
+    height: 450,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -132,17 +133,43 @@ function Navbar() {
         setOpen(false);
     };
 
-    
-  const { classname } = useParams()
-  console.log('class at nav', classname);
+
+    const { classname } = useParams()
+    console.log('class at nav', classname);
 
 
     const [classOpen, setClassOpen] = React.useState(classname === undefined ? "select class" : classname);
     const [classBoxOpen, setClassBoxOpen] = React.useState(false)
     const [classFreq, setClassFreq] = React.useState('');
 
-    const [className,  setClassName] = React.useState('')
-    const [classNameOpen , setClassNameOpen] = React.useState(false)
+    const [className, setClassName] = React.useState('')
+    const [classNameOpen, setClassNameOpen] = React.useState(false)
+
+    const [classStartHourTime, setClassStartHourTime] = React.useState('')
+    const [classStartTimeOpen, setClassStartTimeOpen] = React.useState(false)
+
+    const handleClassStartHourChange = (e) => {
+        setClassStartHourTime(e.target.value)
+    }
+
+    const [classStartMinTime, setClassStartMinTime] = React.useState('')
+
+    const handleClassStartMinTime = (e) => {
+        setClassStartMinTime(e.target.value)
+    }
+
+    const [classEndHourTime , setClassEndHourTime] = React.useState('')
+
+    const handleClassEndHourTime = (e) => {
+        setClassEndHourTime(e.target.value)
+    }
+
+    const [classEndMinTime , setClassEndMinTime] = React.useState('')
+
+    const handleClassEndMinTime = (e) => {
+        setClassEndMinTime(e.target.value)
+    }
+
 
     const handleChange = (e) => {
         console.log('target', e.target.value);
@@ -174,10 +201,10 @@ function Navbar() {
 
     const handleClose = (className) => {
         setClassOpen(className)
-        console.log('class name' , className);
-        
-            setClassBoxOpen(false);
-        
+        console.log('class name', className);
+
+        setClassBoxOpen(false);
+
     };
 
     //getting curret time and date
@@ -187,6 +214,18 @@ function Navbar() {
     var date = someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
     var defaultValue = new Date(date).toISOString().split("T")[0];
     const currTime = new Date().toLocaleTimeString();
+
+    //API to to create class
+
+    const handleClassPost = async() => {
+        try {
+            const response = await axios.post("http://localhost:8000/createclass" , 11 ).then((res) => {
+                console.log("class created");
+            })
+        } catch (error) {
+            console.log("error accured while creating class", error);
+        }
+    }
 
 
     return (
@@ -201,46 +240,173 @@ function Navbar() {
                 aria-describedby="keep-mounted-modal-description"
             >
                 <Box sx={style}>
-                    <Box sx={{display:'flex', justifyContent:"space-between"}}> 
-                    <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-                        Create Class
-                    </Typography>
-                    <Button onClick={handleModalClose} sx={{position:'relative' , bottom:"30px", left:"35px" , fontSize:"22px"}}>X</Button>
+                    <Box sx={{ display: 'flex', justifyContent: "space-between" }}>
+                        <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+                            Create Class
+                        </Typography>
+                        <Button onClick={handleModalClose} sx={{ position: 'relative', bottom: "30px", left: "35px", fontSize: "22px" }}>X</Button>
                     </Box>
-                   
-                    <Box sx={{ marginTop: "10px" }}>
 
-                    <FormControl variant="standard" sx={{ width: "80vw", margin: "10px 0px" }}>
-                                <InputLabel >select</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-standard-label"
-                                    id="demo-simple-select-standard"
-                                    value={className}
-                                    onChange={handleClassNameChange}
-                                    label="Class"
-                                >
-                                    {
-                                        classData.map(home => {
-                                            return <MenuItem value={home.className}>{home.className}</MenuItem>
-                                        })
-                                    }
-                                    
-                                </Select>
-                            </FormControl>
-                        <Box sx={{ display: 'flex', margin: "10px 0px" }}>
+
+
+                    <Box sx={{ marginTop: "0px" }}>
+
+
+                        <FormControl variant="standard" sx={{ width: "80vw", margin: "0px 0px" }}>
+                            <InputLabel >Select Batch</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                id="demo-simple-select-standard"
+                                value={className}
+                                onChange={handleClassNameChange}
+                                label="Class"
+                            >
+                                {
+                                    classData.map(home => {
+                                        return <MenuItem value={home.className}>{home.className}</MenuItem>
+                                    })
+                                }
+
+                            </Select>
+                        </FormControl>
+
+
+                        <Box sx={{ display: "flex", margin: "15px 0 0 0" }}>
                             <Box sx={{ flexGrow: '1' }}>
-                                <label style={{ marginTop: '10px' }}>From</label>
-                                <br />
-                                <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} value={currTime} type="time" placeholder='Title' />
+                                <Typography sx={{ margin: "10px 0 0px 0" }}>From</Typography>
+                                <Box className="d-flex">
+
+
+                                    <Box sx={{ flexGrow: "1" }}>
+                                        <FormControl variant="standard" sx={{ width: "95%", margin: "0px 0px" }}>
+                                            <InputLabel >hour</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-standard-label"
+                                                id="demo-simple-select-standard"
+                                                value={classStartHourTime}
+                                                onChange={handleClassStartHourChange}
+                                                label="Class"
+                                            >
+
+                                                <MenuItem value="1" >1</MenuItem>
+                                                <MenuItem value="2" >2</MenuItem>
+                                                <MenuItem value="3" >3</MenuItem>
+                                                <MenuItem value="4" >4</MenuItem>
+                                                <MenuItem value="5" >5</MenuItem>
+                                                <MenuItem value="6" >6</MenuItem>
+                                                <MenuItem value="7" >7</MenuItem>
+                                                <MenuItem value="8" >8</MenuItem>
+                                                <MenuItem value="9" >9</MenuItem>
+                                                <MenuItem value="10" >10</MenuItem>
+                                                <MenuItem value="11" >11</MenuItem>
+                                                <MenuItem value="12" >12</MenuItem>
+
+
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                    <Box sx={{ flexGrow: "1" }}>
+                                        <FormControl variant="standard" sx={{ width: "70%", margin: "0px 0px" }}>
+                                            <InputLabel >min</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-standard-label"
+                                                id="demo-simple-select-standard"
+                                                value={classStartMinTime}
+                                                onChange={handleClassStartMinTime}
+                                                label="Class"
+                                            >
+
+                                                <MenuItem value="00">00</MenuItem>
+                                                <MenuItem value="05">05</MenuItem>
+                                                <MenuItem value="10">10</MenuItem>
+                                                <MenuItem value="15">15</MenuItem>
+                                                <MenuItem value="20">20</MenuItem>
+                                                <MenuItem value="25">25</MenuItem>
+                                                <MenuItem value="30">30</MenuItem>
+                                                <MenuItem value="35">35</MenuItem>
+                                                <MenuItem value="40">40</MenuItem>
+                                                <MenuItem value="45">45</MenuItem>
+                                                <MenuItem value="50">50</MenuItem>
+                                                <MenuItem value="55">55</MenuItem>
+                                                <MenuItem value="60">60</MenuItem>
+
+
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </Box>
+
+
                             </Box>
-                            <Box sx={{ flexGrow: '1' }}>
-                                <label style={{ marginTop: '10px' }}>To</label>
-                                <br />
-                                <Input sx={{ margin: "0px", '& input': { content: `"white"` } }} type="time" placeholder='Title' />
+                            <Box sx={{ flexGrow: "1" }}>
+                                <Typography sx={{ margin: "10px 0 0px 0" }}>To</Typography>
+                                <Box className="d-flex">
+
+
+                                    <Box sx={{ flexGrow: "1" }}>
+                                        <FormControl variant="standard" sx={{ width: "90%", margin: "0px 0px" }}>
+                                            <InputLabel >hour</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-standard-label"
+                                                id="demo-simple-select-standard"
+                                                value={classEndHourTime}
+                                                onChange={handleClassEndHourTime}
+                                                label="Class"
+                                            >
+
+                                                <MenuItem value="1" >1</MenuItem>
+                                                <MenuItem value="2" >2</MenuItem>
+                                                <MenuItem value="3" >3</MenuItem>
+                                                <MenuItem value="4" >4</MenuItem>
+                                                <MenuItem value="5" >5</MenuItem>
+                                                <MenuItem value="6" >6</MenuItem>
+                                                <MenuItem value="7" >7</MenuItem>
+                                                <MenuItem value="8" >8</MenuItem>
+                                                <MenuItem value="9" >9</MenuItem>
+                                                <MenuItem value="10" >10</MenuItem>
+                                                <MenuItem value="11" >11</MenuItem>
+                                                <MenuItem value="12" >12</MenuItem>
+
+
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                    <Box sx={{ flexGrow: "1" }}>
+                                        <FormControl variant="standard" sx={{ width: "95%", margin: "0px 0px" }}>
+                                            <InputLabel >min</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-standard-label"
+                                                id="demo-simple-select-standard"
+                                                value={classEndMinTime}
+                                                onChange={handleClassEndMinTime}
+                                                label="Class"
+                                            >
+
+                                                <MenuItem value="00">00</MenuItem>
+                                                <MenuItem value="05">05</MenuItem>
+                                                <MenuItem value="10">10</MenuItem>
+                                                <MenuItem value="15">15</MenuItem>
+                                                <MenuItem value="20">20</MenuItem>
+                                                <MenuItem value="25">25</MenuItem>
+                                                <MenuItem value="30">30</MenuItem>
+                                                <MenuItem value="35">35</MenuItem>
+                                                <MenuItem value="40">40</MenuItem>
+                                                <MenuItem value="45">45</MenuItem>
+                                                <MenuItem value="50">50</MenuItem>
+                                                <MenuItem value="55">55</MenuItem>
+                                                <MenuItem value="60">60</MenuItem>
+
+
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </Box>
                             </Box>
                         </Box>
+
+
                         <Box>
-                            <FormControl variant="standard" sx={{ width: "80vw", margin: "10px 0px" }}>
+                            <FormControl variant="standard" sx={{ width: "80vw", margin: "15px 0px" }}>
                                 <InputLabel >select</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-standard-label"
@@ -248,13 +414,14 @@ function Navbar() {
                                     value={classFreq}
                                     onChange={handleClassFreqChange}
                                     label="Class"
+                                    
                                 >
                                     <MenuItem value={"Today"}>Today</MenuItem>
                                     <MenuItem value={"Everyday"} >Everyday</MenuItem>
-                                    {/* <MenuItem value={"Costom"}>Costom</MenuItem> */}
+                                    <MenuItem value={"Costom"}>Costom</MenuItem>
                                 </Select>
                             </FormControl>
-                            <Button sx={{ margin: "30px 0px" , width:"100%" }} variant='contained'>Create</Button>
+                            <Button onClick={handleClassPost} sx={{ margin: "30px 0px", width: "100%" }} variant='contained'>Create</Button>
                         </Box>
 
 
@@ -279,7 +446,7 @@ function Navbar() {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            Attandance
+                            Campus Watch
 
                         </Typography>
                     </Toolbar>
@@ -304,14 +471,14 @@ function Navbar() {
                                             label="Class"
                                         >
 
-                                            
+
                                             {
                                                 classData.map(home => {
-                                                    return  <Link  style={{TextDecoration:"none"}} to={`/${home.className}`}> <Box id="class-select-box" onClick={() => handleClose(home.className)}  sx={{ width:"72vw", margin:"5px 0px" , padding:"10px" }}>{home.className}</Box></Link>
+                                                    return <Link style={{ TextDecoration: "none" }} to={`/${home.className}`}> <Box id="class-select-box" onClick={() => handleClose(home.className)} sx={{ width: "72vw", margin: "5px 0px", padding: "10px" }}>{home.className}</Box></Link>
                                                 })
                                             }
-                                          
-                                          
+
+
                                             {/* <MenuItem value={studentData[1].class} >{studentData[0].class}</MenuItem>
                                             <MenuItem value={studentData[2].class} >{studentData[0].class}</MenuItem>
                                             <MenuItem value={studentData[3].class} >{studentData[0].class}</MenuItem>
@@ -334,7 +501,7 @@ function Navbar() {
                         <Box sx={{ color: "white", display: "flex", justifyContent: 'center', alignItems: 'center', width: "50%", borderTop: '1px solid white' }}>
 
 
-                            <input defaultValue={defaultValue} type='date' sx={{ '& input': { color: 'white' }, width: "65%" }} />
+                            <input onChange={(e) => console.log("date from nav" , e.target.value)} defaultValue={defaultValue} type='date' sx={{ '& input': { color: 'white' }, width: "65%" }} />
 
 
                         </Box>
@@ -363,6 +530,17 @@ function Navbar() {
                     <Divider />
                     <List>
 
+                    <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                  <Link to={"/:"}>  <Button onClick={handleDrawerClose}> Home</Button></Link>
+                                </ListItemIcon>
+                                <ListItemText />
+                            </ListItemButton>
+                        </ListItem>
+
+
+
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -371,6 +549,19 @@ function Navbar() {
                                 <ListItemText />
                             </ListItemButton>
                         </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <Link onClick={handleDrawerClose} to={"/calendar"}><Button> Calendar</Button></Link>
+                                </ListItemIcon>
+                                <ListItemText />
+                            </ListItemButton>
+                        </ListItem>
+
+
+
+
 
                     </List>
                     <Divider />
@@ -384,7 +575,7 @@ function Navbar() {
 
             {/* code for pop  */}
 
-            
+
 
         </>
     )
