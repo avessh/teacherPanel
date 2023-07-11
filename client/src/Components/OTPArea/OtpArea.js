@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Box, Typography, Button , Card ,CardContent } from '@mui/material'
+import ReplayIcon from '@mui/icons-material/Replay';
 
 import '../OTPArea/OtpStyle.css'
 
@@ -13,11 +14,11 @@ function OtpArea() {
   }
 
 
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
 
-  const onClick = () => {
-    setDisabled(true);
-  };
+  // const onClick = () => {
+  //   setDisabled(true);
+  // };
 
   function start() {
 
@@ -41,8 +42,8 @@ function OtpArea() {
 
     function countDownTimer() {
 
-      const btn1 = document.getElementById('btn1').style.display = "none";
-       document.getElementById('clock').style.display = "flex";
+      // const btn1 = document.getElementById('btn1').style.display = "none";
+      //  document.getElementById('clock').style.display = "block";
 
 
       const currentTime = Date.now();
@@ -98,12 +99,12 @@ function OtpArea() {
     
     <Box>00</Box>
     `;
-   alert(`TIME'S UP!`);
+  //  alert(`TIME'S UP!`);
    
 
-   document.getElementById('otp').style.display="none";
-   document.getElementById('btn2').style.display = "block";
-   document.getElementById('clock').style.display = "none";
+  //  document.getElementById('otp').style.display="none";
+  //  document.getElementById('btn2').style.display = "block";
+  //  document.getElementById('clock').style.display = "none";
 
         
 
@@ -129,14 +130,26 @@ function OtpArea() {
 
   return (
     
-
-    
-
-    <Box className='' sx={{border:"1px solid grey",  height: "15vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-     
-
-      {/* <Box sx={{backgroundColor:'white', border:"1px solid grey" , margin:"15px 5px" , padding:"15px 5px"}}> */}
-      <Box sx={{display:"none"}} id='clock'  className=' center'>
+    <div>
+    <div style={{display:"flex"}}>
+      <div className='a' >
+      <Box id='otp' class="text" sx={{ backgroundColor: "blue", width:"100%" }}>
+            <Typography sx={{fontSize:"80px"}} id="number1"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number2"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number3"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number4"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number5"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number6"></Typography>
+          </Box>
+      </div>
+      <div className='b'>
+        <div className='c'>
+        {/* <Button  id='btn1' variant='contained' onClick={() => { start(); random(); }} ><ReplayIcon /></Button> */}
+        <ReplayIcon className='replay' id='btn1' fontSize='large'  color="primary"  onClick={() => { start(); random(); }} />
+        {/* <ReplayIcon fontSize='large' /> */}
+        </div>
+        <div className='d'>
+        <Box  id='clock'  className=' center'>
         <Box sx={{ display: "flex", backgroundColor:"red"}} class="">
           <Box sx={{display:"flex"}} class="main-container center">
             {/* progress indicator */}
@@ -156,22 +169,56 @@ function OtpArea() {
          
         </Box>
       </Box>
-      <Box  >
-      <Box id='otp' class="text" sx={{ backgroundColor: "blue", width:"100%" }}>
-            <Typography sx={{fontSize:"50px"}} id="number1"></Typography>
-            <Typography sx={{fontSize:"50px"}} id="number2"></Typography>
-            <Typography sx={{fontSize:"50px"}} id="number3"></Typography>
-            <Typography sx={{fontSize:"50px"}} id="number4"></Typography>
-            <Typography sx={{fontSize:"50px"}} id="number5"></Typography>
-            <Typography sx={{fontSize:"50px"}} id="number6"></Typography>
+        </div>
+      </div>
+    </div>
+
+    {/* <Box className='' sx={{border:"1px solid grey",  height: "15vh", display: "flex", justifyContent: "center", alignItems: "center" }}> */}
+
+    
+     
+      {/* <div className='b'> */}
+      {/* <Box sx={{backgroundColor:'white', border:"1px solid grey" , margin:"15px 5px" , padding:"15px 5px"}}> */}
+      {/* <Box sx={{display:"none"}} id='clock'  className=' center'>
+        <Box sx={{ display: "flex", backgroundColor:"red"}} class="">
+          <Box sx={{display:"flex"}} class="main-container center"> */}
+            {/* progress indicator */}
+            {/* <Box class="circle-container center">
+            
+              <Box class="semicircle"></Box>
+              <Box class="semicircle"></Box>
+              <Box class="semicircle"></Box>
+              <Box class="outermost-circle"></Box>
+            </Box> */}
+
+            {/* timer  */}
+            {/* <Box  class="timer-container center">
+              <Box class="timer center"></Box>
+            </Box>
+          </Box>
+         
+        </Box>
+      </Box>
+      </div> */}
+
+      {/* <Box  >
+      <Box id='otp' className="text" sx={{ backgroundColor: "blue", width:"100%" }}>
+            <Typography sx={{fontSize:"80px"}} id="number1"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number2"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number3"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number4"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number5"></Typography>
+            <Typography sx={{fontSize:"80px"}} id="number6"></Typography>
           </Box>
         <Button  id='btn1' variant='contained' onClick={() => { start(); random(); }} >Generate OTP</Button>
-        <Button  id='btn2' variant='contained' disabled={disabled} onClick={() => { start(); random(); onClick() }} >Regenerate OTP</Button>
+        <Button  id='btn2' variant='contained'  onClick={() => { start(); random() }} >Regenerate OTP</Button>
       </Box>
 
 
-      {/* </Box> */}
-    </Box>
+      </Box> */}
+
+    {/* </Box> */}
+    </div>
   
   )
 }

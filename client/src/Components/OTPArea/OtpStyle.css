@@ -8,6 +8,20 @@ html{
     color: #088b8b;
 }
 
+.a{
+    width: 75%;
+    padding-left: 10px;
+}
+
+.b{
+    justify-content: end;
+    align-content: end;
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+
 .box{
     
 }
@@ -30,7 +44,7 @@ html{
 }
 
 .main-container{
-    width: 50%;
+    width: 130%;
     margin: 0px 80px 0px 0px;
     height: 10vh;
     /* height: 10vh; */
@@ -38,8 +52,8 @@ html{
 }
 
 .circle-container{
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     background-color: #ddd;
     border-radius: 50%;
     position: absolute;
@@ -73,8 +87,8 @@ html{
 }
 
 .outermost-circle{
-    width: 45px;
-    height: 45px;
+    width: 25px;
+    height: 25px;
     background-color: white;
     border-radius: 50%;
     z-index: 5;
@@ -135,8 +149,12 @@ html{
     padding-bottom: 3px;
     }
 
-    .btn{
+    #btn1{
+        margin-left: 46px;
+    }
 
+    #btn1:hover{
+        cursor: pointer;
     }
 
     #btn2{
