@@ -1,0 +1,39 @@
+html{
+  background-color: whitesmoke;
+  overflow-x: hidden;
+}
+.root{
+  background-color: whitesmoke;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+ /* background-color: white !important; */
+ background-image: url('./img//calendar_1869397.png') ;
+ width: 20%;
+}
+
+input[type="date"]{
+  background-color: #16151c;
+  border: none;
+  color: white;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+::-webkit-datetime-edit-second-field {
+  background-color: white;
+  color: transparent;
+  margin-left: -3px;
+  position: absolute;
+  display: hidden;
+  width: 1px;
+}
+
+ul{
+  min-height: 15vh;
+  max-height: 30vh;
+}
