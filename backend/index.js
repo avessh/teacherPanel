@@ -2,7 +2,7 @@ const express = require('express')
 const connect_database = require('./DB')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const create_class = require('./Routes/Class');
+const create_class = require('./Routes/ Class')
 
 
 const app = express()
@@ -12,7 +12,7 @@ app.use(cors())
 app.options('*', cors());
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3001",
     methods: ["GET", "POST", "PUT", "DELETE"]
 }))
 
