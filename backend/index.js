@@ -2,7 +2,7 @@ const express = require('express')
 const connect_database = require('./DB')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const create_class =require('./Routes/ Class')
+const create_class = require('./Routes/ Class')
 
 
 const app = express()
@@ -36,23 +36,11 @@ var jsonParser = bodyParser.json()
 //apis
 //api to create class
 
-app.all('/*', function(req, res, next) {
+app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
-  });
+});
 
-// app.use("/api/createclass",jsonParser , create_class)
+app.use("/createclass", jsonParser, create_class)
 
-app.post("/createclass", bodyParser.json(), async (req, res) => {
-
-
-    try {
-        res.status(200).send({ "msg": "inserted to db" })
-        console.log("class created");
-    } catch (e) {
-        console.log(e)
-        res.status(500).send({ "msg": "error" })
-    }
-
-})

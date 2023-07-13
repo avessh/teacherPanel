@@ -192,6 +192,12 @@ function Navbar() {
 
     }
 
+    console.log("batch" ,className );
+    console.log("starting hour time" ,classStartHourTime );
+    console.log("starting hour min" ,classStartMinTime );
+    console.log("end  hour" ,classEndHourTime );
+    console.log("end  min" ,classEndMinTime );
+
 
 
     const handleClickOpen = () => {
@@ -217,10 +223,25 @@ function Navbar() {
 
     //API to to create class
 
+    const classDataCreate = {
+         batchname:className,
+         classStartHour:classStartHourTime,
+         classStartMin: classStartMinTime,
+         classEndHourTime:classEndHourTime,
+         classEndMinTime:classEndMinTime,
+         classfreq:classFreq
+    }
+
+    console.log("classdara", classDataCreate);
+
     const handleClassPost = async() => {
         try {
-            const response = await axios.post("http://localhost:8000/createclass" , 11 ).then((res) => {
+            const response = await axios.post("http://localhost:8000/createclass" ,classDataCreate ).then((res) => {
+                setModalOpen(false)
+                setOpen(false)
                 console.log("class created");
+                
+
             })
         } catch (error) {
             console.log("error accured while creating class", error);

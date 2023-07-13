@@ -18,6 +18,7 @@ function App() {
       <OtpArea />
       <Routes>
         <Route path="/:classname" element={<StudentArea />} />
+        <Route path="/:classname" element={<OtpArea />} />
         <Route path="/calendar" element={<Classes />} />
       </Routes>
     </>

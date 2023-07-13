@@ -1,5 +1,6 @@
 html{
   background-color: whitesmoke;
+  overflow-x: hidden;
 }
 .root{
   background-color: whitesmoke;
